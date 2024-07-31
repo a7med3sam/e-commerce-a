@@ -1,0 +1,96 @@
+<div class="p-5" *ngIf="cartProducts.length > 0">
+  <h3 class="m-5 color">Cart</h3>
+  <div *ngFor="let product of cartProducts">
+    <div
+      class="card mb-3 mainborder mx-auto mb-5 mt-5 bg-dark"
+      style="max-width: 700px"
+    >
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            [src]="product?.images"
+            class="img-fluid rounded-5"
+            alt="product image"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ product?.title }}</h5>
+            <div class="fs-4 fw-bold cart-text">
+              <p
+                [innerHTML]="
+                  product?.price | discount : product?.discountPercentage
+                "
+              ></p>
+            </div>
+            <div class="d-flex justify-content-evenly">
+              <p class="card-text mt-3">
+                <small class="text-dark fs-5"
+                  >quentity : {{ product?.quantity }}</small
+                >
+              </p>
+              <div class="rounded-pill d-flex" style="align-items: center">
+                <button
+                  class="border-0 bg-light rounded-start text-dark"
+                  (click)="decreaseQuantity(product)"
+                >
+                  -
+                </button>
+                <p
+                  style="width: 50px; text-align: center"
+                  class="border-0 mt-3 bg-light text-dark"
+                >
+                  {{ product.quantity }}
+                </p>
+                <button
+                  class="bg-light rounded-end border-0 text-dark"
+                  (click)="increaseQuantity(product)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <!-- Error message section -->
+            <div>
+              <span
+                *ngIf="product.errorMessage"
+                class="text-center mx-auto w-75 mt-3"
+              >
+                {{ product.errorMessage }}
+              </span>
+            </div>
+            <div class="d-flex justify-content-end align-items-end">
+              <button
+                style="width: 150px; height: 50px"
+                class="btn bg-danger mainhover text-light m-5 fs-4"
+                (click)="deleteProduct(product?.id)"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+  <div
+    class="mainborder text-center rounded w-lg-25 w-md-25 w-sm-75 d-flex flex-column m-5 p-2"
+    style="float: right"
+  >
+    <p class="fs-5 text-light">Total Price (after discount):</p>
+    <span class="fs-3 text-light">${{ cartProducts | totalPrice }}</span>
+  </div>
+</div>
+
+<div *ngIf="cartProducts.length === 0">
+  <div class="container text-center mt-5">
+    <p
+      style="margin: auto"
+      class="mainborder w-75 w-md-50 fs-3 py-2 text-center mt-5 text-light"
+    >
+      Your cart is empty!
+    </p>
+    <img class="img-fluid rounded-pill mt-5" src="trolley_4290854.png" />
+  </div>
+</div>
